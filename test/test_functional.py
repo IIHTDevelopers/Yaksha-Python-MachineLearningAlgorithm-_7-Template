@@ -45,7 +45,7 @@ class TestFruitModel(unittest.TestCase):
             print(f"TestFruitDataColumns = Failed | Exception: {e}")
 
 
-    def test_split_data(self):
+    def test_split_data_fruit(self):
         try:
             # Load and preprocess sample data
             X, y = fruit.load_and_preprocess_data("fruit_data.csv")
@@ -75,7 +75,7 @@ class TestFruitModel(unittest.TestCase):
         except Exception as e:
             self.test_obj.yakshaAssert("TestSplitData", False, "functional")
             print(f"TestSplitData = Failed | Exception: {e}")
-    def test_train_and_save_model(self):
+    def test_train_and_save_model_fruit(self):
         try:
             import os
             from sklearn.ensemble import RandomForestClassifier
