@@ -141,7 +141,7 @@ def predict_from_json(model, json_file="fruit_item.json"):
         Predicted fruit type (e.g., "apple", "orange", "banana", etc.)
     """
     # Your code here
-    Return ""
+    return ""
     pass  # Remove this line when implementing the function
 
 
