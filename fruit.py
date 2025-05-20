@@ -29,8 +29,8 @@ def load_and_preprocess_data(data_path="fruit_data.csv"):
         Target variable (fruit_name)
     """
     # Your code here
-    pass  # Remove this line when implementing the function
-
+    return pd.DataFrame(), pd.Series()
+    pass  
 
 def split_data(X, y, test_size=0.2, random_state=42):
     """
@@ -64,7 +64,8 @@ def split_data(X, y, test_size=0.2, random_state=42):
         Testing target
     """
     # Your code here
-    pass  # Remove this line when implementing the function
+    return pd.DataFrame(), pd.DataFrame(), pd.Series(), pd.Series()
+    pass  
 
 
 def train_and_save_model(X_train, y_train, model_path="fruit_rf_model.pkl"):
@@ -92,8 +93,8 @@ def train_and_save_model(X_train, y_train, model_path="fruit_rf_model.pkl"):
         Trained Random Forest classifier
     """
     # Your code here
-    pass  # Remove this line when implementing the function
-
+    return RandomForestClassifier()
+    pass  
 
 def load_model(model_path="fruit_rf_model.pkl"):
     """
@@ -114,8 +115,8 @@ def load_model(model_path="fruit_rf_model.pkl"):
         Loaded Random Forest classifier
     """
     # Your code here
-    pass  # Remove this line when implementing the function
-
+    return RandomForestClassifier()
+    pass  
 
 def predict_from_json(model, json_file="fruit_item.json"):
     """
@@ -140,6 +141,7 @@ def predict_from_json(model, json_file="fruit_item.json"):
         Predicted fruit type (e.g., "apple", "orange", "banana", etc.)
     """
     # Your code here
+    Return ""
     pass  # Remove this line when implementing the function
 
 
