@@ -34,7 +34,9 @@ def load_and_preprocess_data(data_path="employee_promotion_dataset.csv"):
         Target variable (promotion status)
     """
     # Your code here
-    pass  # Remove this line when implementing the function
+
+    return pd.DataFrame(), pd.DataFrame(), pd.Series()
+    pass
 
 
 def perform_eda(df):
@@ -57,6 +59,8 @@ def perform_eda(df):
         Number of employees with age > 35
     """
     # Your code here
+    count = 0
+    return count 
     pass  # Remove this line when implementing the function
 
 
@@ -92,8 +96,8 @@ def split_data(X, y, test_size=0.2, random_state=42):
         Testing target
     """
     # Your code here
-    pass  # Remove this line when implementing the function
-
+    return pd.DataFrame(), pd.DataFrame(), pd.Series(), pd.Series()
+    pass  
 
 def train_and_save_model(X_train, y_train, model_path="promotion_svm_model.pkl"):
     """
@@ -124,6 +128,7 @@ def train_and_save_model(X_train, y_train, model_path="promotion_svm_model.pkl")
         Fitted scaler for feature scaling
     """
     # Your code here
+    return model()
     pass  # Remove this line when implementing the function
 
 
@@ -155,6 +160,7 @@ def predict_from_json(model, scaler, json_file="new_employee.json", feature_colu
         Predicted promotion status (0 = Not Promoted, 1 = Promoted)
     """
     # Your code here
+    return int()
     pass  # Remove this line when implementing the function
 
 
