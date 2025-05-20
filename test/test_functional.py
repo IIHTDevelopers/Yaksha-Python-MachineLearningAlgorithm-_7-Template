@@ -17,32 +17,41 @@ class TestFruitModel(unittest.TestCase):
         self.df = fruit.load_and_preprocess_data()
 
     def test_fruit_data_columns(self):
-        try:
-            import os
-            import pandas as pd
+    try:
+        import os
+        import pandas as pd
 
-            # Resolve CSV path
-            data_path = os.path.join(os.path.dirname(__file__), "..", "fruit_data.csv")
+        # Resolve CSV path
+        data_path = os.path.join(os.path.dirname(__file__), "..", "fruit_data.csv")
 
-            # Call the function (ensures it's usable)
-            X, y = fruit.load_and_preprocess_data(data_path)
+        # Call the function
+        X, y = fruit.load_and_preprocess_data(data_path)
 
-            # Reload raw data to check original columns
-            df = pd.read_csv(data_path)
-            expected_columns = ["mass", "width", "height", "color_score", "fruit_name"]
-            all_columns_present = all(col in df.columns for col in expected_columns)
+        # Define expected features and target
+        expected_features = ["mass", "width", "height", "color_score"]
+        expected_target = "fruit_name"
 
-            if all_columns_present:
-                self.test_obj.yakshaAssert("TestFruitDataColumns", True, "functional")
-                print("TestFruitDataColumns = Passed")
-            else:
-                self.test_obj.yakshaAssert("TestFruitDataColumns", False, "functional")
-                missing = [col for col in expected_columns if col not in df.columns]
-                print(f"TestFruitDataColumns = Failed | Missing columns: {missing}")
+        correct_features = all(col in X.columns for col in expected_features)
+        correct_target = isinstance(y, pd.Series) and y.name == expected_target
+        non_empty = not X.empty and not y.empty
 
-        except Exception as e:
+        if correct_features and correct_target and non_empty:
+            self.test_obj.yakshaAssert("TestFruitDataColumns", True, "functional")
+            print("TestFruitDataColumns = Passed")
+        else:
             self.test_obj.yakshaAssert("TestFruitDataColumns", False, "functional")
-            print(f"TestFruitDataColumns = Failed | Exception: {e}")
+            print("TestFruitDataColumns = Failed")
+            if not correct_features:
+                print(f"Missing features in X: {[col for col in expected_features if col not in X.columns]}")
+            if not correct_target:
+                print(f"Expected target column name to be '{expected_target}', got '{y.name}'")
+            if not non_empty:
+                print("X or y is empty.")
+
+    except Exception as e:
+        self.test_obj.yakshaAssert("TestFruitDataColumns", False, "functional")
+        print(f"TestFruitDataColumns = Failed | Exception: {e}")
+
 def test_split_data(self):
     try:
         # Load and preprocess sample data
