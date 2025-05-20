@@ -17,121 +17,121 @@ class TestFruitModel(unittest.TestCase):
         self.df = fruit.load_and_preprocess_data()
 
     def test_fruit_data_columns(self):
-    try:
-        import os
-        import pandas as pd
+        try:
+            import os
+            import pandas as pd
 
-        # Resolve CSV path
-        data_path = os.path.join(os.path.dirname(__file__), "..", "fruit_data.csv")
+            # Resolve CSV path
+            data_path = os.path.join(os.path.dirname(__file__), "..", "fruit_data.csv")
 
-        # Call the function
-        X, y = fruit.load_and_preprocess_data(data_path)
+            # Call the function
+            X, y = fruit.load_and_preprocess_data(data_path)
 
-        # Define expected features and target
-        expected_features = ["mass", "width", "height", "color_score"]
-        expected_target = "fruit_name"
+            # Define expected features and target
+            expected_features = ["mass", "width", "height", "color_score"]
+            expected_target = "fruit_name"
 
-        correct_features = all(col in X.columns for col in expected_features)
-        correct_target = isinstance(y, pd.Series) and y.name == expected_target
-        non_empty = not X.empty and not y.empty
+            correct_features = all(col in X.columns for col in expected_features)
+            correct_target = isinstance(y, pd.Series) and y.name == expected_target
+            non_empty = not X.empty and not y.empty
 
-        if correct_features and correct_target and non_empty:
-            self.test_obj.yakshaAssert("TestFruitDataColumns", True, "functional")
-            print("TestFruitDataColumns = Passed")
-        else:
+            if correct_features and correct_target and non_empty:
+                self.test_obj.yakshaAssert("TestFruitDataColumns", True, "functional")
+                print("TestFruitDataColumns = Passed")
+            else:
+                self.test_obj.yakshaAssert("TestFruitDataColumns", False, "functional")
+                print("TestFruitDataColumns = Failed")
+                if not correct_features:
+                    print(f"Missing features in X: {[col for col in expected_features if col not in X.columns]}")
+                if not correct_target:
+                    print(f"Expected target column name to be '{expected_target}', got '{y.name}'")
+                if not non_empty:
+                    print("X or y is empty.")
+
+        except Exception as e:
             self.test_obj.yakshaAssert("TestFruitDataColumns", False, "functional")
-            print("TestFruitDataColumns = Failed")
-            if not correct_features:
-                print(f"Missing features in X: {[col for col in expected_features if col not in X.columns]}")
-            if not correct_target:
-                print(f"Expected target column name to be '{expected_target}', got '{y.name}'")
-            if not non_empty:
-                print("X or y is empty.")
+            print(f"TestFruitDataColumns = Failed | Exception: {e}")
 
-    except Exception as e:
-        self.test_obj.yakshaAssert("TestFruitDataColumns", False, "functional")
-        print(f"TestFruitDataColumns = Failed | Exception: {e}")
+    def test_split_data(self):
+        try:
+            # Load and preprocess sample data
+            X, y = fruit.load_and_preprocess_data("fruit_data.csv")
 
-def test_split_data(self):
-    try:
-        # Load and preprocess sample data
-        X, y = fruit.load_and_preprocess_data("fruit_data.csv")
+            total_samples = len(X)
 
-        total_samples = len(X)
+            # Fail early if data not loaded
+            if total_samples == 0 or len(y) == 0:
+                raise ValueError("Loaded data is empty. Cannot perform split.")
 
-        # Fail early if data not loaded
-        if total_samples == 0 or len(y) == 0:
-            raise ValueError("Loaded data is empty. Cannot perform split.")
+            # Call the function to split the data
+            X_train, X_test, y_train, y_test = fruit.split_data(X, y, test_size=0.2)
 
-        # Call the function to split the data
-        X_train, X_test, y_train, y_test = fruit.split_data(X, y, test_size=0.2)
+            # Calculate expected sizes
+            expected_test_size = int(total_samples * 0.2)
+            expected_train_size = total_samples - expected_test_size
 
-        # Calculate expected sizes
-        expected_test_size = int(total_samples * 0.2)
-        expected_train_size = total_samples - expected_test_size
+            # Check for empty outputs (additional safety)
+            non_empty = not X_train.empty and not X_test.empty and not y_train.empty and not y_test.empty
 
-        # Check for empty outputs (additional safety)
-        non_empty = not X_train.empty and not X_test.empty and not y_train.empty and not y_test.empty
+            # Validate the split correctness
+            correct_split = (
+                len(X_train) == expected_train_size and
+                len(X_test) == expected_test_size and
+                len(X_train) == len(y_train) and
+                len(X_test) == len(y_test)
+            )
 
-        # Validate the split correctness
-        correct_split = (
-            len(X_train) == expected_train_size and
-            len(X_test) == expected_test_size and
-            len(X_train) == len(y_train) and
-            len(X_test) == len(y_test)
-        )
+            if correct_split and non_empty:
+                self.test_obj.yakshaAssert("TestSplitData_fruit", True, "functional")
+                print("TestSplitData_fruit = Passed")
+            else:
+                self.test_obj.yakshaAssert("TestSplitData_fruit", False, "functional")
+                print("TestSplitData_fruit = Failed")
 
-        if correct_split and non_empty:
-            self.test_obj.yakshaAssert("TestSplitData_fruit", True, "functional")
-            print("TestSplitData_fruit = Passed")
-        else:
+        except Exception as e:
             self.test_obj.yakshaAssert("TestSplitData_fruit", False, "functional")
-            print("TestSplitData_fruit = Failed")
-
-    except Exception as e:
-        self.test_obj.yakshaAssert("TestSplitData_fruit", False, "functional")
-        print(f"TestSplitData_fruit = Failed | Exception: {e}")
+            print(f"TestSplitData_fruit = Failed | Exception: {e}")
 
 
     def test_split_data(self):
-    try:
-        # Load and preprocess sample data
-        X, y = fruit.load_and_preprocess_data("fruit_data.csv")
+        try:
+            # Load and preprocess sample data
+            X, y = fruit.load_and_preprocess_data("fruit_data.csv")
 
-        total_samples = len(X)
+            total_samples = len(X)
 
-        # Fail early if data not loaded
-        if total_samples == 0 or len(y) == 0:
-            raise ValueError("Loaded data is empty. Cannot perform split.")
+            # Fail early if data not loaded
+            if total_samples == 0 or len(y) == 0:
+                raise ValueError("Loaded data is empty. Cannot perform split.")
 
-        # Call the function to split the data
-        X_train, X_test, y_train, y_test = fruit.split_data(X, y, test_size=0.2)
+            # Call the function to split the data
+            X_train, X_test, y_train, y_test = fruit.split_data(X, y, test_size=0.2)
 
-        # Calculate expected sizes
-        expected_test_size = int(total_samples * 0.2)
-        expected_train_size = total_samples - expected_test_size
+            # Calculate expected sizes
+            expected_test_size = int(total_samples * 0.2)
+            expected_train_size = total_samples - expected_test_size
 
-        # Check for empty outputs (additional safety)
-        non_empty = not X_train.empty and not X_test.empty and not y_train.empty and not y_test.empty
+            # Check for empty outputs (additional safety)
+            non_empty = not X_train.empty and not X_test.empty and not y_train.empty and not y_test.empty
 
-        # Validate the split correctness
-        correct_split = (
-            len(X_train) == expected_train_size and
-            len(X_test) == expected_test_size and
-            len(X_train) == len(y_train) and
-            len(X_test) == len(y_test)
-        )
+            # Validate the split correctness
+            correct_split = (
+                len(X_train) == expected_train_size and
+                len(X_test) == expected_test_size and
+                len(X_train) == len(y_train) and
+                len(X_test) == len(y_test)
+            )
 
-        if correct_split and non_empty:
-            self.test_obj.yakshaAssert("TestSplitData_fruit", True, "functional")
-            print("TestSplitData_fruit = Passed")
-        else:
+            if correct_split and non_empty:
+                self.test_obj.yakshaAssert("TestSplitData_fruit", True, "functional")
+                print("TestSplitData_fruit = Passed")
+            else:
+                self.test_obj.yakshaAssert("TestSplitData_fruit", False, "functional")
+                print("TestSplitData_fruit = Failed")
+
+        except Exception as e:
             self.test_obj.yakshaAssert("TestSplitData_fruit", False, "functional")
-            print("TestSplitData_fruit = Failed")
-
-    except Exception as e:
-        self.test_obj.yakshaAssert("TestSplitData_fruit", False, "functional")
-        print(f"TestSplitData_fruit = Failed | Exception: {e}")
+            print(f"TestSplitData_fruit = Failed | Exception: {e}")
 
     def test_train_and_save_model(self):
         try:
