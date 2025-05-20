@@ -281,31 +281,39 @@ def test_split_data(self):
         try:
             # Load data
             _, X, y = EmployeePromotion.load_and_preprocess_data("employee_promotion_dataset.csv")
-
+    
             # Call the function
             X_train, X_test, y_train, y_test = EmployeePromotion.split_data(X, y, test_size=0.2)
-
+    
             total_samples = len(X)
             expected_test_size = int(total_samples * 0.2)
             expected_train_size = total_samples - expected_test_size
-
+    
             correct_split = (
                 len(X_train) == expected_train_size and
                 len(X_test) == expected_test_size and
                 len(y_train) == expected_train_size and
                 len(y_test) == expected_test_size
             )
-
-            if correct_split:
+    
+            non_empty = not X_train.empty and not X_test.empty and not y_train.empty and not y_test.empty
+    
+            if correct_split and non_empty:
                 self.test_obj.yakshaAssert("TestSplitData", True, "functional")
                 print("TestSplitData = Passed")
             else:
                 self.test_obj.yakshaAssert("TestSplitData", False, "functional")
                 print("TestSplitData = Failed")
-
+                if not correct_split:
+                    print(f"Expected sizes - Train: {expected_train_size}, Test: {expected_test_size}")
+                    print(f"Got sizes - X_train: {len(X_train)}, X_test: {len(X_test)}, y_train: {len(y_train)}, y_test: {len(y_test)}")
+                if not non_empty:
+                    print("One or more split sets are empty.")
+    
         except Exception as e:
             self.test_obj.yakshaAssert("TestSplitData", False, "functional")
             print(f"TestSplitData = Failed | Exception: {e}")
+
     def test_train_and_save_modelemployee(self):
         try:
             import os
